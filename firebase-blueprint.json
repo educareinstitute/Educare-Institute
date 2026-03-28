@@ -1,0 +1,127 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Represents a student, teacher, or admin.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "id": { "type": "string", "description": "Roll Number or Teacher/Admin ID" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "teacher", "admin"] },
+        "class": { "type": "string", "description": "Class name (e.g., 'Class 6', 'Class 12 PCM')" },
+        "photoURL": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "address": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "id", "name", "role"]
+    },
+    "Homework": {
+      "title": "Homework",
+      "description": "Homework assigned by teachers.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "subject": { "type": "string" },
+        "class": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "teacherName": { "type": "string" },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "attachments": { "type": "array", "items": { "type": "string" }, "description": "URLs to images or PDFs" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "subject", "class", "teacherId"]
+    },
+    "Notice": {
+      "title": "Notice",
+      "description": "General announcements.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "targetRoles": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "senderId"]
+    },
+    "Attendance": {
+      "title": "Attendance",
+      "description": "Daily attendance records.",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "class": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["Present", "Absent", "Holiday"] },
+        "markedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["studentId", "date", "status"]
+    },
+    "LeaveRequest": {
+      "title": "LeaveRequest",
+      "description": "Leave requests from students.",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "class": { "type": "string" },
+        "reason": { "type": "string" },
+        "startDate": { "type": "string", "format": "date" },
+        "endDate": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["Pending", "Approved", "Rejected"] },
+        "reviewedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["studentId", "reason", "startDate", "endDate", "status"]
+    },
+    "Fee": {
+      "title": "Fee",
+      "description": "Fee records for students.",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "class": { "type": "string" },
+        "amount": { "type": "number" },
+        "dueDate": { "type": "string", "format": "date" },
+        "paidAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["Paid", "Due", "Partial"] },
+        "lastPaymentDate": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["studentId", "amount", "status"]
+    },
+    "Mark": {
+      "title": "Mark",
+      "description": "Test marks for students.",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "class": { "type": "string" },
+        "subject": { "type": "string" },
+        "testName": { "type": "string" },
+        "marksObtained": { "type": "number" },
+        "maxMarks": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["studentId", "subject", "testName", "marksObtained", "maxMarks"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": { "schema": "User", "description": "User profiles" },
+    "/homework/{homeworkId}": { "schema": "Homework", "description": "Homework assignments" },
+    "/notices/{noticeId}": { "schema": "Notice", "description": "Announcements" },
+    "/attendance/{attendanceId}": { "schema": "Attendance", "description": "Attendance records" },
+    "/leaveRequests/{requestId}": { "schema": "LeaveRequest", "description": "Leave requests" },
+    "/fees/{feeId}": { "schema": "Fee", "description": "Fee records" },
+    "/marks/{markId}": { "schema": "Mark", "description": "Student marks" }
+  }
+}

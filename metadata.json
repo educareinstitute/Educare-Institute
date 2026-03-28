@@ -1,0 +1,8 @@
+{
+  "name": "EDUCARE INSTITUTE",
+  "description": "A complete production-ready Coaching Management App for Students, Teachers, and Admins.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
